@@ -24,7 +24,7 @@ public class Worker {
 
     public void stageOne() {
 
-        synchronized (Worker.class) {
+        synchronized (lock1) {
             try {
                 Thread.sleep(1);
             } catch (InterruptedException e) {
