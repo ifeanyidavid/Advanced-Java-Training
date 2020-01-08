@@ -40,17 +40,15 @@ public class ProducerConsumer2 {
 
 class Data {
 
-//    private List<Integer> tableB = new ArrayList<>();
     private String data;
 
-    // True if receiver should wait
-    // False if sender should wait
+    // True if consumer should wait
+    // False if producer should wait
     private boolean transfer = true;
 
     public synchronized void produce(String data) {
         while (!transfer) {
             try {
-//                System.out.println("Send: Don't send yet, consumer is still busy");
                 wait();
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
@@ -82,6 +80,7 @@ class Data {
 class Consumer implements Runnable {
 
     private Data payload;
+    private List<String> tableB = new ArrayList<>();
 
     // standard constructors
     public Consumer() {
@@ -93,17 +92,10 @@ class Consumer implements Runnable {
 
     public void run() {
         for (int i = 0; i <= 1000000; i++) {
-
             System.out.println("Consuming "+ payload.consume());
-
-            // ...
-//            try {
-//                Thread.sleep(ThreadLocalRandom.current().nextInt(1000, 5000));
-//            } catch (InterruptedException e) {
-//                Thread.currentThread().interrupt();
-//                e.printStackTrace();
-//            }
+            tableB.add(payload.consume());
         }
+        System.out.println(tableB);
     }
 }
 
@@ -125,13 +117,6 @@ class Producer implements Runnable {
         for (int i = 0; i <= 1000000; i++) {
             tableA.add("Data" + i);
             data.produce("Data " + i);
-
-//            try {
-//                Thread.sleep(ThreadLocalRandom.current().nextInt(1000, 5000));
-//            } catch (InterruptedException e) {
-//                Thread.currentThread().interrupt();
-//                e.printStackTrace();
-//            }
         }
     }
 }
