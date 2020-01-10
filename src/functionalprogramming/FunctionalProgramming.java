@@ -8,6 +8,7 @@ package functionalprogramming;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  *
@@ -25,39 +26,48 @@ public class FunctionalProgramming {
 
         System.out.println("Dormant Accounts \n");
 
-        accounts.stream().filter((account) -> account.isDormant()).forEach(dormAccount -> {
-            System.out.println("Account name " + dormAccount.getAccountName());
-            System.out.println("Account number " + dormAccount.getAccountNum());
-            System.out.println("Dormant status " + dormAccount.isDormant());
-            System.out.println("============");
-        });
-        
-        System.out.println("\n Non-Dormant Accounts \n");
-        
-        accounts.stream().filter((account) -> !account.isDormant()).forEach(dormAccount -> {
-            System.out.println("Account name " + dormAccount.getAccountName());
-            System.out.println("Account number " + dormAccount.getAccountNum());
-            System.out.println("Dormant status " + dormAccount.isDormant());
-            System.out.println("============");
-        });
+        accounts.stream().filter((account) -> account.isDormant()).forEach(System.out::println);
+
+        System.out.println("\nNon-Dormant Accounts \n");
+
+        accounts.stream().filter((account) -> !account.isDormant()).forEach(System.out::println);
     }
 
     static List<Account> generateAccounts() {
         List<Account> accounts = new ArrayList<>();
 
-        for (int i = 0; i < 100; i++) {
-            Account newAccount = new Account();
-            newAccount.setAccountName("David Kalu_" + i);
-            newAccount.setAccountNum("327306524" + i);
+        Account a = new Account();
+        a.setAccountName("David Kalu_");
+        a.setAccountNum("327306524");
+
+//        List<Account> aList = IntStream.range(0, 100).mapToObj((index) -> {
+//            
+//            a.setAccountName(a.getAccountName() + index);
+//            a.setAccountNum(a.getAccountNum() + index);
+//            
+//            if (index % 2 == 0) {
+//                a.setDormant(true);
+//            } else {
+//                a.setDormant(false);
+//            }
+//            
+//            return a;
+//        }).collect(Collectors.toList());
+//        
+//        return aList;
+//        System.out.println("A List: " + aList);
+        for (int i = 0; i <= 100; i++) {
+            Account account = new Account();
+            account.setAccountName("David Kalu_" + i);
+            account.setAccountNum("327306524" + i);
 
             if (i % 2 == 0) {
-                newAccount.setDormant(true);
+                account.setDormant(true);
             } else {
-                newAccount.setDormant(false);
+                account.setDormant(false);
             }
-            accounts.add(newAccount);
+            accounts.add(account);
         }
-
         return accounts;
     }
 }
@@ -90,6 +100,11 @@ class Account {
 
     public void setDormant(boolean dormant) {
         this.dormant = dormant;
+    }
+
+    @Override
+    public String toString() {
+        return "Account Name = " + accountName + ", Account Number = " + accountNum + ", Dormant status = " + dormant + "\n";
     }
 
 }
